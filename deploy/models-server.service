@@ -1,0 +1,36 @@
+[Unit]
+Description=Models Server - High-performance model inference server
+After=network.target
+
+[Service]
+# --- Configuración del Proceso ---
+# Ruta al ejecutable. Asumimos que se instalará en /usr/local/bin.
+ExecStart=/usr/local/bin/models_server_app --config /etc/models-server/config.yaml
+
+# Usuario y grupo para ejecutar el servicio. Es una buena práctica de seguridad
+# crear un usuario específico para la aplicación.
+User=models-server
+Group=models-server
+
+# --- Comportamiento y Gestión ---
+# Tipo 'simple': systemd considera que el servicio está activo
+# inmediatamente después de que el proceso principal (nuestro MasterProcess) se inicie.
+Type=simple
+
+# Reiniciar el servicio automáticamente si falla.
+Restart=on-failure
+RestartSec=5s
+
+# --- Seguridad ---
+# No permitir que el servicio escriba en el árbol del sistema.
+ProtectSystem=full
+# Montar /home, /root y /run/user como de solo lectura.
+ProtectHome=true
+# Evitar que el servicio adquiera nuevos privilegios.
+NoNewPrivileges=true
+# Limitar los dispositivos a los que el servicio puede acceder.
+PrivateDevices=true
+
+[Install]
+# Iniciar el servicio en el arranque del sistema para el modo multi-usuario.
+WantedBy=multi-user.target

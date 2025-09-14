@@ -1,0 +1,23 @@
+{
+    "version": 8,
+    "configurePresets": [
+        {
+            "name": "Debug",
+            "displayName": "Apple Debug",
+            "description": "Using compilers: C = /usr/bin/clang, CXX = /usr/bin/clang++",
+            "binaryDir": "${workspaceFolder}/build",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "Debug-Dummy",
+            "displayName": "Apple Debug with Dummy Module",
+            "description": "Debug build including the dummy module for testing.",
+            "inherits": "Debug",
+            "cacheVariables": {
+                "BUILD_DUMMY_MODULE": "ON"
+            }
+        }
+    ]
+}

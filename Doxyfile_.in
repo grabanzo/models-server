@@ -1,0 +1,34 @@
+# Doxyfile.in - Plantilla de configuración de Doxygen para CMake
+
+# --- Información del Proyecto ---
+PROJECT_NAME           = "@CMAKE_PROJECT_NAME@"
+PROJECT_NUMBER         = "@CMAKE_PROJECT_VERSION@"
+STRIP_FROM_PATH        = "@CMAKE_SOURCE_DIR@"
+OUTPUT_DIRECTORY       = "@CMAKE_BINARY_DIR@/docs/doxygen"
+
+# --- Configuración de la Salida ---
+CREATE_SUBDIRS         = YES
+FULL_PATH_NAMES        = YES
+QUIET                  = YES
+
+# --- Ficheros de Entrada ---
+INPUT                  = "@CMAKE_SOURCE_DIR@/src"
+RECURSIVE              = YES
+EXCLUDE_PATTERNS       = */build/* */out/*
+
+# --- Opciones de Extracción ---
+EXTRACT_ALL            = YES
+EXTRACT_PRIVATE        = YES
+EXTRACT_STATIC         = YES
+
+# --- Configuración de Graphviz (para diagramas) ---
+# Es necesario tener 'dot' (de Graphviz) instalado y en el PATH.
+HAVE_DOT               = YES
+UML_LOOK               = YES
+CALL_GRAPH             = YES
+CALLER_GRAPH           = YES
+
+# --- Formato de Salida ---
+GENERATE_HTML          = YES
+HTML_OUTPUT            = html
+GENERATE_LATEX         = NO
