@@ -1,28 +1,5 @@
 # Grabanzo Models Server
 
-Un servidor de inferencia de modelos de alto rendimiento, escrito en C++ moderno, diseñado para ser robusto, modular y escalable. Todo el código del proyecto reside bajo el namespace principal `grabanzo::models_server`.
-
-## Arquitectura
-
-Este proyecto está construido siguiendo un conjunto de principios de diseño de software para aplicaciones de servidor de alto rendimiento:
-
-- **Arquitectura Multi-Proceso Robusta:** Utiliza un modelo pre-fork con un proceso maestro que supervisa múltiples procesos `worker`. Si un `worker` falla, se reinicia automáticamente, garantizando una alta disponibilidad.
-- **Mitigación de Fugas de Memoria:** Los `workers` se reinician automáticamente después de procesar un número configurable de peticiones, una estrategia probada para prevenir la degradación del servicio a largo plazo.
-- **Apagado Ordenado (Graceful Shutdown):** El servidor gestiona las señales del sistema (`SIGINT`, `SIGTERM`) para asegurar que las peticiones en curso se completen antes de que un `worker` se apague.
-- **Código Modular y Desacoplado:** La funcionalidad está organizada en **Módulos** autocontenidos (ej. `health`, `dummy`). Cada módulo puede registrar sus propias rutas HTTP y servicios.
-- **Registro Automático de Módulos:** Los módulos se descubren y se cargan dinámicamente al inicio, sin necesidad de registrarlos manualmente en el código principal.
-- **Inyección de Dependencias:** Los componentes (como las rutas o los módulos) acceden a recursos compartidos (configuración, thread pools, otros servicios) a través de un **Service Manager**, lo que promueve un bajo acoplamiento y facilita las pruebas.
-
-### Estructura de Librerías
-
-El código base está organizado en un conjunto de librerías estáticas con responsabilidades bien definidas:
-- `libs/core`: Componentes fundamentales sin dependencias externas (Logger, ThreadPool).
-- `libs/framework`: Define las interfaces y contratos de la arquitectura (IModule, IService, IRoute, ServiceManager).
-- `libs/config`: Proporciona la implementación del servicio de configuración.
-- `libs/http`: Contiene la lógica del servidor HTTP basada en `httplib`.
-- `modules/`: Contiene los módulos de negocio, cada uno como una librería independiente.
-- `apps/`: Ensambla las librerías para crear los binarios ejecutables.
-
 ## Requisitos
 
 - Compilador de C++ compatible con C++17 o superior.
@@ -75,59 +52,6 @@ Puedes lanzar el servidor desde el directorio raíz del proyecto:
 - `--max-requests <num>`: El número de peticiones que un `worker` procesará antes de reiniciarse (0 para ilimitado).
 - `--config <path>`: Ruta a un fichero de configuración YAML alternativo.
 - `--help`: Muestra el mensaje de ayuda.
-
-## Configuración
-
-La configuración se carga con la siguiente prioridad (1 anula a 2, etc.):
-1.  **Argumentos de línea de comandos.**
-2.  **Variables de entorno** del sistema.
-3.  Variables definidas en un fichero **`.env`** en la raíz del proyecto.
-4.  Fichero **`config/config.yaml`**.
-5.  **Valores por defecto.**
-
-### Configuración de Módulos
-
-Cada módulo puede definir su propia estructura de configuración fuertemente tipada. La configuración para los módulos se anida bajo la clave `modules` en el `config.yaml`:
-
-```yaml
-# config/config.yaml
-server:
-  host: "127.0.0.1"
-  port: 8080
-
-modules:
-  dummy:
-    log_message: "Este mensaje viene del YAML!"
-    retries: 5
-```
-
-## Endpoints de la API
-
-Los endpoints están agrupados por módulos, cada uno con su propio prefijo de ruta.
-
-### Módulo Health
-
-- **Ruta:** `GET /health/`
-- **Descripción:** Comprueba el estado de un `worker`.
-- **Respuesta Exitosa (200 OK):**
-  ```json
-  {
-    "status": "ok"
-  }
-  ```
-
-### Módulo Dummy (si está activado)
-
-- **Ruta:** `GET /dummy/`
-- **Descripción:** Ruta de ejemplo que utiliza su propio servicio y configuración.
-- **Respuesta Exitosa (200 OK):**
-  ```json
-  {
-    "status": "ok",
-    "module": "dummy",
-    "message_from_service": "Este mensaje viene del YAML! (Intentos: 5)"
-  }
-  ```
 
 ## Cómo Desarrollar un Nuevo Módulo
 
