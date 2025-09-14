@@ -4,3 +4,4 @@ extern/
 /var
 .DS_Store
 /config
+/vendor

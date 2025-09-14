@@ -1,16 +1,19 @@
-project(health_module)
+project(mserver_modules_health)
 
-add_library(${PROJECT_NAME} STATIC
-    HealthModule.cpp
-    routes/HealthRoutes.cpp
+add_library(${PROJECT_NAME} 
+    STATIC
+        src/health_module.cpp
+        src/health_routes.cpp
 )
 
-target_include_directories(${PROJECT_NAME} PUBLIC
-    ${CMAKE_CURRENT_SOURCE_DIR}
+target_include_directories(${PROJECT_NAME}
+    PUBLIC
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+        $<INSTALL_INTERFACE:include>
 )
 
-# El módulo necesita acceso a las interfaces del framework y a los tipos http
-target_link_libraries(${PROJECT_NAME} PUBLIC
-    models_server_framework
-    models_server_http
+# 4. Enlaza las dependencias necesarias. Como mínimo, necesitarás 'framework' y 'http'.
+target_link_libraries(${PROJECT_NAME}
+    PUBLIC
+        mserver_core
 )
