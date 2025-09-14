@@ -6,7 +6,7 @@
 set(MODULE_NAME "dummy_module")
 
 # 2. Crea la librería estática para el módulo.
-add_library(${MODULE_NAME} STATIC
+add_library(${MODULE_NAME} OBJECT
     DummyModule.cpp
     routes/DummyRoutes.cpp
     services/DummyServiceImpl.cpp

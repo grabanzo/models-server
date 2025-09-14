@@ -1,6 +1,6 @@
 #pragma once
 
-#include <grabanzo/mserver/framework/IModule.hpp>
+#include "grabanzo/mserver/framework/ModuleBase.hpp"
 
 namespace grabanzo::mserver::modules::health {
 
@@ -10,8 +10,9 @@ namespace grabanzo::mserver::modules::health {
  *
  * Este módulo no registra servicios, solo provee las rutas para el endpoint /health.
  */
-class HealthModule : public framework::IModule {
+class HealthModule : public framework::ModuleBase {
 public:
+    HealthModule() : framework::ModuleBase("health") {}
     void register_services(framework::ServiceManager& manager) override;
     std::vector<std::unique_ptr<framework::IRoute>> get_route_handlers() override;
     std::string get_prefix() const override;

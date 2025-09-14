@@ -47,6 +47,10 @@ public:
 
 } // namespace grabanzo::mserver::framework
 
-#define REGISTER_MODULE(name_str, simple_class_name, full_class_name) \
-    static grabanzo::mserver::framework::ModuleRegistrar registrar_##simple_class_name( \
-        name_str, []() { return std::make_shared<full_class_name>(); });
+#define REGISTER_MODULE(name_str, simple_class_name, full_class_name)          \
+    static grabanzo::mserver::framework::ModuleRegistrar                       \
+        registrar_##simple_class_name(                                         \
+            name_str,                                                          \
+            []() -> std::shared_ptr<grabanzo::mserver::framework::IModule> {   \
+                return std::make_shared<full_class_name>();                    \
+            });

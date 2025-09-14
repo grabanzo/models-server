@@ -2,14 +2,14 @@
 
 #include <string>
 
+#include <grabanzo/mserver/framework/RouteContext.hpp>
+
 // Forward declarations to avoid including full headers here.
 namespace httplib {
     class Server;
 }
 
 namespace grabanzo::mserver::framework {
-
-class RouteContext; // Forward declaration for our own type
 
 /**
  * @class IRoute

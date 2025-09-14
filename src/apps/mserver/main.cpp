@@ -18,5 +18,6 @@ int main(int argc, char* argv[]) {
     grabanzo::mserver::MasterProcess master(cfg);
     master.run();
     
+    grabanzo::mserver::core::Log::Shutdown();
     return 0;
 }

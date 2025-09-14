@@ -1,6 +1,6 @@
 #pragma once
 
-#include <functional>
+#include <grabanzo/mserver/framework/ServiceManager.hpp>
 
 // Forward declarations to avoid circular dependencies
 namespace grabanzo::mserver::core {
@@ -8,8 +8,6 @@ namespace grabanzo::mserver::core {
 }
 
 namespace grabanzo::mserver::framework {
-
-class ServiceManager; // Belongs to the same namespace
 
 /**
  * @struct RouteContext
@@ -19,9 +17,8 @@ class ServiceManager; // Belongs to the same namespace
  * pasarlas como múltiples parámetros a las funciones de las rutas.
  */
 struct RouteContext {
-    core::ThreadPool& thread_pool;
     ServiceManager& service_manager;
-    std::function<void()> pre_request_handler;
+    core::ThreadPool& thread_pool;
 };
 
 } // namespace grabanzo::mserver::framework

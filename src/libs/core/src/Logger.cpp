@@ -11,13 +11,16 @@ void Log::Init() {
     // Creamos un "sink" para la consola con colores
     auto console_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
 
-    // Volvemos al formato JSON original, que era estable.
-    auto formatter = std::make_unique<spdlog::pattern_formatter>(
-        R"({ "timestamp": "%Y-%m-%dT%H:%M:%S.%e%z", "level": "%l", "process_id": %P, "thread_id": %t, "message": "%v" })",
-        spdlog::pattern_time_type::utc
-    );
-    console_sink->set_formatter(std::move(formatter));
-    
+    // auto formatter = std::make_unique<spdlog::pattern_formatter>(
+    //     R"([%f] [%l] [%n] %v)"
+    // );
+    // auto formatter = std::make_unique<spdlog::pattern_formatter>(
+    //     R"({ "timestamp": "%Y-%m-%dT%H:%M:%S.%e%z", "level": "%l", "process_id": %P, "thread_id": %t, "message": "%v" })",
+    //     spdlog::pattern_time_type::utc
+    // );
+    // console_sink->set_formatter(std::move(formatter));
+    console_sink->set_pattern("[%f] [%P/%t] [%^%l%$] %v");
+
     // Creamos el logger con el sink que acabamos de configurar
     s_Logger = std::make_shared<spdlog::logger>("ModelsServerLogger", console_sink);
     

@@ -54,11 +54,10 @@ FetchContent_MakeAvailable(spdlog)
 # )
 # FetchContent_MakeAvailable(nlohmann_json)
 
-# set(FIGCONE_USE_YAML ON)
 include(FetchContent)
 FetchContent_Declare(figcone
     GIT_REPOSITORY https://github.com/grabanzo/figcone.git
-    GIT_TAG fix-template
+    GIT_TAG master
 )
 #uncomment if you need to install figcone with your target
 #set(INSTALL_FIGCONE ON)

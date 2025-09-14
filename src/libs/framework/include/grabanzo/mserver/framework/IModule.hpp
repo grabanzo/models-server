@@ -4,20 +4,10 @@
 #include <string>
 #include <vector>
 
-// Forward declarations
-namespace httplib {
-    class Server;
-}
-namespace grabanzo::mserver::core {
-    class ThreadPool;
-}
+#include <grabanzo/mserver/framework/IRoute.hpp>
+#include <grabanzo/mserver/framework/ServiceManager.hpp>
 
 namespace grabanzo::mserver::framework {
-
-// Forward declarations for types within the same library
-class IRoute;
-class IService;
-class ServiceManager;
 
 /**
  * @class IModule
@@ -49,7 +39,9 @@ public:
      * @return Un string que representa el prefijo (ej. "/health", "/face").
      *         Si se devuelve una cadena vacía, las rutas se registrarán en la raíz.
      */
-    virtual std::string get_prefix() const { return ""; }
+    virtual std::string get_prefix() const = 0;
+
+    virtual std::string get_name() const = 0;
 };
 
 } // namespace grabanzo::mserver::framework

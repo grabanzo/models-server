@@ -37,9 +37,9 @@ public:
     void run();
 
 private:
-    void handle_request();
-
     static void graceful_shutdown_handler(int signum);
+
+    HttpServerConfig config_;
 
     core::ThreadPool thread_pool;
     std::shared_ptr<framework::ServiceManager> service_manager_;
@@ -48,14 +48,10 @@ private:
 
     std::vector<std::unique_ptr<framework::IRoute>> routes_;
 
-    const size_t max_requests_;
-    const int shutdown_timeout_sec_;
     std::atomic<size_t> request_count_{0};
     std::atomic<bool> shutdown_initiated_{false};
 
     static std::atomic<HttpServer*> running_server_instance_;
-    const std::string& host;
-    const int port;
 };
 
 } // namespace grabanzo::mserver::http

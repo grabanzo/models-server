@@ -1,6 +1,6 @@
 project(health_module)
 
-add_library(${PROJECT_NAME} STATIC
+add_library(${PROJECT_NAME} OBJECT
     HealthModule.cpp
     routes/HealthRoutes.cpp
 )
